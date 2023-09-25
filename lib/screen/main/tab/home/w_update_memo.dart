@@ -86,7 +86,7 @@ class UpdateMemoPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
 
-                      memoViewModel.updateMemo(before_memo.key , Memo(title: title.text, content: content.text, createdDate: DateTime.now()));
+                      memoViewModel.updateMemo(before_memo.key , Memo(title: title.text, content: content.text, createdDate: DateTime.now(),isFavorite: before_memo.isFavorite));
 
                       Navigator.of(context).pop();
                       context.showSnackbar('메모가 수정되었습니다.');
