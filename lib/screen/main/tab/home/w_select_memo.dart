@@ -30,8 +30,13 @@ class _SelectMemoState extends State<SelectMemo> {
         title: Text('체크'),
         leading: IconButton(
           onPressed: () {
+            // for (int i = 0; i < memos.length; i++) {
+            //   memoViewModel.backBoxCheckedDelete(memos[i].key, memos[i]);
+            // }
+
             for (int i = 0; i < memos.length; i++) {
-              memoViewModel.backBoxCheckedDelete(memos[i].key, memos[i]);
+              //memoViewModel.allSelectBoxCheckedDelete(memos[i].key, memos[i]);
+              memos[i].isBoxChecked = false;
             }
 
             Navigator.of(context).pop();
@@ -47,20 +52,22 @@ class _SelectMemoState extends State<SelectMemo> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('전부', style: TextStyle(fontSize: 20,),),
+                  //Text('전부', style: TextStyle(fontSize: 20,),),
                   Checkbox(
                     value: isAllSelect,
                     onChanged: (value) {
                       setState(() {
                         if(isAllSelect == false) {
                           for (int i = 0; i < memos.length; i++) {
-                            memoViewModel.allSelectBoxCheckedDelete(memos[i].key, memos[i]);
+                            //memoViewModel.allSelectBoxCheckedDelete(memos[i].key, memos[i]);
+                            memos[i].isBoxChecked = true;
                           }
                           isAllSelect = value;
                           print(isAllSelect);
                         } else if(isAllSelect == true) {
                           for (int i = 0; i < memos.length; i++) {
-                            memoViewModel.backBoxCheckedDelete(memos[i].key, memos[i]);
+                            //memoViewModel.backBoxCheckedDelete(memos[i].key, memos[i]);
+                            memos[i].isBoxChecked = false;
                           }
                           isAllSelect = value;
                           print(isAllSelect);
@@ -77,6 +84,7 @@ class _SelectMemoState extends State<SelectMemo> {
                 child: (ListView.builder(
                   itemBuilder: (BuildContext context, index) {
                     return Card(
+                      color: memos[index].isBoxChecked ? Colors.grey.shade500 : null,
                       elevation: 5,
                       child: GestureDetector(
                         onTap: () {
@@ -131,11 +139,17 @@ class _SelectMemoState extends State<SelectMemo> {
               children: [
                 ElevatedButton(
                   onPressed: () {
+                    List<Memo> checkedMemo = [];
                     for (int i = 0; i < memos.length; i++) {
                       if (memos[i].isBoxChecked) {
-                        memoViewModel.deleteMemo(memos[i].key);
+                        checkedMemo.add(memos[i]);
+                        //memoViewModel.deleteMemo(memos[i].key);
                       }
                     }
+
+                    memoViewModel.boxCheckedDelete(checkedMemo);
+
+
                   },
                   child: Text('삭제하기'),
                 ),

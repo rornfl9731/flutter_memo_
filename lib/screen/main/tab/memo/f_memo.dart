@@ -35,15 +35,14 @@ class _MemoFragmentState extends State<MemoFragment> {
         children: [
           Expanded(
             child: Container(
-              child: (isCheckBoxchecked
-                  ? SelectMemo()
-                  : ListView.builder(
+              child: (ListView.builder(
                       itemBuilder: (BuildContext context, index) {
                         return Card(
                           elevation: 5,
                           child: GestureDetector(
                             onLongPress: () {
                               Nav.push(SelectMemo());
+
                             },
                             onTap: () {
                               Nav.push(UpdateMemoPage(

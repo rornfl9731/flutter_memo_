@@ -114,11 +114,12 @@ class MemoViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> boxCheckedDelete(int key, Memo memo) async {
+  Future<void> boxCheckedDelete(List<Memo> checkedMemo) async {
 
-    if(memo.isBoxChecked) {
-      _memoBox.delete(key);
+    for(int i=0;i<checkedMemo.length;i++){
+      await _memoBox.delete(checkedMemo[i].key);
     }
+
     await _loadMemos();
     notifyListeners();
 
