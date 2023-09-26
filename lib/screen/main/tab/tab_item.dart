@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'memo/f_memo.dart';
 
 enum TabItem {
-  home(Icons.home, '홈', HomeFragment()),
+  home(Icons.message, '메모', MemoFragment()),
   favorite(Icons.star, '즐겨찾기', FavoriteFragment(isShowBackButton: false)),
-  add(Icons.message, '메모', MemoFragment());
+  add(Icons.settings, '설정', HomeFragment());
 
 
 

@@ -68,19 +68,6 @@ class _FavoriteFragmentState extends State<FavoriteFragment> {
                   )),
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Nav.push(
-                    AddMemoPage(),
-                  );
-                },
-                child: Text('추가하기'),
-              ),
-            ],
-          ),
         ],
       ),
     );

@@ -21,13 +21,14 @@ class MemoAdapter extends TypeAdapter<Memo> {
       content: fields[1] as String,
       createdDate: fields[2] as DateTime,
       isFavorite: fields[3] as bool,
+      isBoxChecked: fields[4] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Memo obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class MemoAdapter extends TypeAdapter<Memo> {
       ..writeByte(2)
       ..write(obj.createdDate)
       ..writeByte(3)
-      ..write(obj.isFavorite);
+      ..write(obj.isFavorite)
+      ..writeByte(4)
+      ..write(obj.isBoxChecked);
   }
 
   @override
