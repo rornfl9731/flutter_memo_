@@ -16,6 +16,9 @@ class Memo extends HiveObject{
   @HiveField(3)
   bool isFavorite;
 
-  Memo({required this.title, required this.content, required this.createdDate, this.isFavorite = false});
+  @HiveField(4)
+  bool isBoxChecked;
+
+  Memo({required this.title, required this.content, required this.createdDate, this.isFavorite = false, this.isBoxChecked = false,});
 
 }

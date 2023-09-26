@@ -1,6 +1,7 @@
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/model/memo.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_add_memo.dart';
+import 'package:fast_app_base/screen/main/tab/home/w_select_memo.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_update_memo.dart';
 import 'package:fast_app_base/viewmodel/memo_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,8 @@ class MemoFragment extends StatefulWidget {
 }
 
 class _MemoFragmentState extends State<MemoFragment> {
+  bool isCheckBoxchecked = false;
+
   @override
   Widget build(BuildContext context) {
     final memoViewModel = Provider.of<MemoViewModel>(context);
@@ -32,39 +35,53 @@ class _MemoFragmentState extends State<MemoFragment> {
         children: [
           Expanded(
             child: Container(
-              child: (
-              memos.length == 0 ? Center(child: Text("메모가 없습니다."),) :
-                  ListView.builder(
-                itemBuilder: (BuildContext context, index) {
-                  return Card(
-                    elevation: 5,
-                    child: GestureDetector(
-                      onTap: () {
-                        Nav.push(UpdateMemoPage(before_memo: memos[index],));
-                      },
-                      child: Row(
-                        children: [
-                          Expanded(
-                            flex:1,
-                              child:IconButton(onPressed: (){
-                                memoViewModel.toggleFavorite(memos[index].key, memos[index]);
-
-                              },icon: memos[index].isFavorite == true ? Icon(Icons.star,color: Colors.yellow,) : Icon(Icons.star_border_outlined,),)
-                          ),
-                          Expanded(
-                            flex: 9,
-                            child: ListTile(
-                              title: Text(memos[index].title),
-                              subtitle: Text(memos[index].content),
+              child: (isCheckBoxchecked
+                  ? SelectMemo()
+                  : ListView.builder(
+                      itemBuilder: (BuildContext context, index) {
+                        return Card(
+                          elevation: 5,
+                          child: GestureDetector(
+                            onLongPress: () {
+                              Nav.push(SelectMemo());
+                            },
+                            onTap: () {
+                              Nav.push(UpdateMemoPage(
+                                before_memo: memos[index],
+                              ));
+                            },
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        memoViewModel.toggleFavorite(
+                                            memos[index].key, memos[index]);
+                                      },
+                                      icon: memos[index].isFavorite == true
+                                          ? Icon(
+                                              Icons.star,
+                                              color: Colors.yellow,
+                                            )
+                                          : Icon(
+                                              Icons.star_border_outlined,
+                                            ),
+                                    )),
+                                Expanded(
+                                  flex: 9,
+                                  child: ListTile(
+                                    title: Text(memos[index].title),
+                                    subtitle: Text(memos[index].content),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                itemCount: memos.length,
-              )),
+                        );
+                      },
+                      itemCount: memos.length,
+                    )),
             ),
           ),
           Column(

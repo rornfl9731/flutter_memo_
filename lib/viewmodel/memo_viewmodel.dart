@@ -12,9 +12,11 @@ class MemoViewModel extends ChangeNotifier {
 
   List<Memo> _memos = [];
   List<Memo> _f_Memos = [];
+  List<Memo> _bc_Memos = [];
 
   List<Memo> get favoriteMemos => _f_Memos;
   List<Memo> get memos => _memos;
+  List<Memo> get boxCheckedMemos => _bc_Memos;
 
   // 얘도 따라써
   MemoViewModel() {
@@ -23,20 +25,16 @@ class MemoViewModel extends ChangeNotifier {
 
   // 그냥 따라쓰면 됨 여기에 함수 선언하고, main에 부르면 됨
   static Future<void> initializeHive() async {
-    final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
+    final appDocumentDir =
+        await path_provider.getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
     Hive.registerAdapter(MemoAdapter());
-
   }
-
 
 // 얘도 그냥 따라써
   Future<void> _openMemoBox() async {
-
-
     await Hive.openBox<Memo>('memos');
     _memoBox = Hive.box<Memo>('memos');
-
 
     await _loadMemos();
   }
@@ -44,7 +42,12 @@ class MemoViewModel extends ChangeNotifier {
 // 얘도 그냥 따라써
   Future<void> _loadMemos() async {
     final memoList = await _memoBox.values.toList();
-    final favoriteMemoList = await _memoBox.values.where((element) => element.isFavorite == true).toList();
+    final favoriteMemoList = await _memoBox.values
+        .where((element) => element.isFavorite == true)
+        .toList();
+    final boxCheckedMemoList = await _memoBox.values
+        .where((element) => element.isBoxChecked == true)
+        .toList();
     // 날짜 역순으로 정렬
     // final firestore = FirebaseFirestore.instance;
     // final snapshot = await firestore.collection('memo').get();
@@ -56,10 +59,9 @@ class MemoViewModel extends ChangeNotifier {
     //   print(doc['isFavorite']);
     // });
 
-
-
     _memos = memoList;
     _f_Memos = favoriteMemoList;
+    _bc_Memos = boxCheckedMemoList;
 
     notifyListeners();
   }
@@ -89,12 +91,66 @@ class MemoViewModel extends ChangeNotifier {
   }
 
   Future<void> toggleFavorite(int key, Memo memo) async {
-    Memo f_memo = Memo(title: memo.title, content: memo.content, createdDate: memo.createdDate, isFavorite: !memo.isFavorite);
+    Memo f_memo = Memo(
+        title: memo.title,
+        content: memo.content,
+        createdDate: memo.createdDate,
+        isFavorite: !memo.isFavorite);
 
     await _memoBox.put(key, f_memo);
     await _loadMemos();
     notifyListeners();
+  }
 
+  Future<void> toggleBoxChecked(int key, Memo memo) async {
+    Memo bc_memo = Memo(
+        title: memo.title,
+        content: memo.content,
+        createdDate: memo.createdDate,
+        isBoxChecked: !memo.isBoxChecked);
+
+    await _memoBox.put(key, bc_memo);
+    await _loadMemos();
+    notifyListeners();
+  }
+
+  Future<void> boxCheckedDelete(int key, Memo memo) async {
+
+    if(memo.isBoxChecked) {
+      _memoBox.delete(key);
+    }
+    await _loadMemos();
+    notifyListeners();
+
+  }
+
+  Future<void> backBoxCheckedDelete(int key, Memo memo) async {
+
+    Memo b_memo = Memo(
+        title: memo.title,
+        content: memo.content,
+        createdDate: memo.createdDate,
+        isBoxChecked: false);
+
+    _memoBox.put(key, b_memo);
+
+    await _loadMemos();
+    notifyListeners();
+
+  }
+
+  Future<void> allSelectBoxCheckedDelete(int key, Memo memo) async {
+
+    Memo b_memo = Memo(
+        title: memo.title,
+        content: memo.content,
+        createdDate: memo.createdDate,
+        isBoxChecked: true);
+
+    _memoBox.put(key, b_memo);
+
+    await _loadMemos();
+    notifyListeners();
 
   }
 
@@ -109,9 +165,4 @@ class MemoViewModel extends ChangeNotifier {
   //
   //
   // }
-
-
-
-
-
 }
