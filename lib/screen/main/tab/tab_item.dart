@@ -1,6 +1,7 @@
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/screen/main/tab/favorite/f_favorite.dart';
 import 'package:fast_app_base/screen/main/tab/home/f_home.dart';
+import 'package:fast_app_base/screen/main/tab/todo/f_todo.dart';
 import 'package:flutter/material.dart';
 
 import 'memo/f_memo.dart';
@@ -8,7 +9,7 @@ import 'memo/f_memo.dart';
 enum TabItem {
   home(Icons.message, '메모', MemoFragment()),
   favorite(Icons.star, '즐겨찾기', FavoriteFragment(isShowBackButton: false)),
-  add(Icons.settings, '설정', HomeFragment());
+  add(Icons.settings, '설정', ToDoFragment());
 
 
 
