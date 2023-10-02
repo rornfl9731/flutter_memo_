@@ -1,23 +1,24 @@
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/model/memo.dart';
+import 'package:fast_app_base/model/todo.dart';
 import 'package:fast_app_base/viewmodel/memo_viewmodel.dart';
+import 'package:fast_app_base/viewmodel/todo_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddMemoPage extends StatelessWidget {
-  const AddMemoPage({Key? key}) : super(key: key);
+class AddToDoPage extends StatelessWidget {
+  const AddToDoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final title = TextEditingController();
     final content = TextEditingController();
 
-    final memoViewModel = Provider.of<MemoViewModel>(context);
+    final todoViewModel = Provider.of<ToDoViewModel>(context);
 
     return Scaffold(
-      
       appBar: AppBar(
-        title: Text('메모 작성'),
+        title: Text('리스트'),
       ),
       body: Container(
         color: Colors.white,
@@ -28,7 +29,6 @@ class AddMemoPage extends StatelessWidget {
               TextField(
                 controller: title,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
                   labelText: '제목',
                   hintText: '제목을 작성해주세요',
                 ),
@@ -43,8 +43,7 @@ class AddMemoPage extends StatelessWidget {
                   maxLines: null,
                   maxLength: 256,
                   decoration:
-                      InputDecoration(labelText: '내용', hintText: '내용을 작성해주세요',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),),
+                  InputDecoration(labelText: '내용', hintText: '내용을 작성해주세요'),
                   expands: true,
                 ),
               ),
@@ -54,18 +53,17 @@ class AddMemoPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
 
-                      memoViewModel.addMemo(Memo(title: title.text, content: content.text, createdDate: DateTime.now()));
+                      todoViewModel.addToDo(ToDo(title: title.text, content: content.text, createdDate: DateTime.now()));
                       //memoViewModel.firebase_add_memo(Memo(title: title.text, content: content.text, createdDate: DateTime.now()));
 
                       Navigator.of(context).pop();
 
 
-                      context.showSnackbar('메모가 추가되었습니다.');
+                      context.showSnackbar('리스트가 추가되었습니다.');
 
                     },
                     child: Text('등록'),
                   ),
-                  SizedBox(height: 20,)
                 ],
               ),
             ],
