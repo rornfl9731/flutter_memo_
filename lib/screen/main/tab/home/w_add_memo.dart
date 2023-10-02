@@ -15,8 +15,9 @@ class AddMemoPage extends StatelessWidget {
     final memoViewModel = Provider.of<MemoViewModel>(context);
 
     return Scaffold(
+      
       appBar: AppBar(
-        title: Text('메모'),
+        title: Text('메모 작성'),
       ),
       body: Container(
         color: Colors.white,
@@ -27,6 +28,7 @@ class AddMemoPage extends StatelessWidget {
               TextField(
                 controller: title,
                 decoration: InputDecoration(
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
                   labelText: '제목',
                   hintText: '제목을 작성해주세요',
                 ),
@@ -41,7 +43,8 @@ class AddMemoPage extends StatelessWidget {
                   maxLines: null,
                   maxLength: 256,
                   decoration:
-                      InputDecoration(labelText: '내용', hintText: '내용을 작성해주세요'),
+                      InputDecoration(labelText: '내용', hintText: '내용을 작성해주세요',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),),
                   expands: true,
                 ),
               ),
@@ -62,6 +65,7 @@ class AddMemoPage extends StatelessWidget {
                     },
                     child: Text('등록'),
                   ),
+                  SizedBox(height: 20,)
                 ],
               ),
             ],

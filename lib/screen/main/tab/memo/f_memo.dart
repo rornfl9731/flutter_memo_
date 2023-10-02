@@ -35,6 +35,7 @@ class _MemoFragmentState extends State<MemoFragment> {
         children: [
           Expanded(
             child: Container(
+
               child: (ListView.builder(
                       itemBuilder: (BuildContext context, index) {
                         return Card(

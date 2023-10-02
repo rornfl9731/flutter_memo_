@@ -1,6 +1,8 @@
 import 'package:fast_app_base/model/todo.dart';
+import 'package:fast_app_base/screen/main/tab/todo/isar/test_todo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
+import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 
 class ToDoViewModel extends ChangeNotifier {
@@ -12,15 +14,17 @@ class ToDoViewModel extends ChangeNotifier {
   List<ToDo> get todos => _todos;
   List<ToDo> get stodos => _s_todos;
 
+
   ToDoViewModel() {
     _openToDoBox();
   }
 
   static Future<void> initializeHive() async {
     final appDocumentDir =
-    await path_provider.getApplicationDocumentsDirectory();
+        await path_provider.getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
     Hive.registerAdapter(ToDoAdapter());
+
 
   }
 
@@ -30,6 +34,8 @@ class ToDoViewModel extends ChangeNotifier {
 
     await _loadToDos();
   }
+
+
 
   Future<void> _loadToDos() async {
     final ToDoList = await _todoBox.values.toList();
@@ -93,14 +99,11 @@ class ToDoViewModel extends ChangeNotifier {
   }
 
   Future<void> boxCheckedDelete(List<ToDo> checkedToDo) async {
-
-    for(int i=0;i<checkedToDo.length;i++){
+    for (int i = 0; i < checkedToDo.length; i++) {
       await _todoBox.delete(checkedToDo[i].key);
     }
 
     await _loadToDos();
     notifyListeners();
-
   }
-
 }

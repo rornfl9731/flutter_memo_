@@ -1,11 +1,15 @@
 import 'package:fast_app_base/common/common.dart';
+import 'package:fast_app_base/model/todo.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_add_memo.dart';
+import 'package:fast_app_base/screen/main/tab/todo/isar/test_todo.dart';
 import 'package:fast_app_base/screen/main/tab/todo/w_add_todo.dart';
 import 'package:fast_app_base/screen/main/tab/todo/w_select_todo.dart';
 import 'package:fast_app_base/screen/main/tab/todo/w_update_todo.dart';
 import 'package:fast_app_base/viewmodel/todo_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../dialog/d_color_bottom.dart';
 
 class ToDoFragment extends StatefulWidget {
   final bool isShowBackButton;
@@ -22,6 +26,7 @@ class ToDoFragment extends StatefulWidget {
 class _ToDoFragmentState extends State<ToDoFragment> {
   @override
   Widget build(BuildContext context) {
+    final todoTitle = TextEditingController();
     final todoViewModel = Provider.of<ToDoViewModel>(context);
     final todos = todoViewModel.todos;
 
@@ -53,7 +58,7 @@ class _ToDoFragmentState extends State<ToDoFragment> {
                               icon: todos[index].isSucceed == true
                                   ? Icon(
                                       Icons.circle,
-                                      color: Colors.black,
+                                      color: Colors.grey,
                                     )
                                   : Icon(
                                       Icons.circle_outlined,
@@ -61,7 +66,7 @@ class _ToDoFragmentState extends State<ToDoFragment> {
                             ),
                           ),
                           Expanded(
-                            flex: 9,
+                            flex: 8,
                             child: todos[index].isSucceed
                                 ? ListTile(
                                     title: Text(
@@ -71,19 +76,19 @@ class _ToDoFragmentState extends State<ToDoFragment> {
                                         color: Colors.grey,
                                       ),
                                     ),
-                                    subtitle: Text(
-                                      todos[index].content,
-                                      style: TextStyle(
-                                        decoration: TextDecoration.lineThrough,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
                                   )
                                 : ListTile(
                                     title: Text(todos[index].title),
-                                    subtitle: Text(todos[index].content),
                                   ),
                           ),
+                          Expanded(
+                              flex: 1,
+                              child: IconButton(
+                                icon: Icon(Icons.restore_from_trash_outlined),
+                                onPressed: () {
+                                  todoViewModel.deleteToDo(todos[index].key);
+                                },
+                              )),
                         ],
                       ),
                     ),
@@ -98,9 +103,50 @@ class _ToDoFragmentState extends State<ToDoFragment> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Nav.push(
-                    AddToDoPage(),
-                  );
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                            height: 200,
+                            color: context.appColors.seedColor
+                                .getMaterialColorValues[200],
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  SizedBox(height: 20,),
+                                  TextField(
+                                    controller: todoTitle,
+                                    autofocus: true,
+                                    maxLines: 1,
+                                    decoration: InputDecoration(
+                                      labelText: '내용',
+                                      hintText: '내용을 작성해주세요',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () {
+                                        todoViewModel.addToDo(
+                                          ToDo(
+                                            title: todoTitle.text,
+                                            content: "",
+                                            createdDate: DateTime.now(),
+                                          ),
+                                        );
+
+
+
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("추가하기"))
+                                ],
+                              ),
+                            ));
+                      });
                 },
                 child: Text('추가하기'),
               ),
