@@ -15,7 +15,6 @@ class AddMemoPage extends StatelessWidget {
     final memoViewModel = Provider.of<MemoViewModel>(context);
 
     return Scaffold(
-      
       appBar: AppBar(
         title: Text('메모 작성'),
       ),
@@ -28,11 +27,11 @@ class AddMemoPage extends StatelessWidget {
               TextField(
                 controller: title,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
                   labelText: '제목',
                   hintText: '제목을 작성해주세요',
                 ),
-
               ),
               SizedBox(
                 height: 10,
@@ -42,9 +41,13 @@ class AddMemoPage extends StatelessWidget {
                   controller: content,
                   maxLines: null,
                   maxLength: 256,
-                  decoration:
-                      InputDecoration(labelText: '내용', hintText: '내용을 작성해주세요',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),),
+                  decoration: InputDecoration(
+                    labelText: '내용',
+                    hintText: '내용을 작성해주세요',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                   expands: true,
                 ),
               ),
@@ -53,19 +56,21 @@ class AddMemoPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-
-                      memoViewModel.addMemo(Memo(title: title.text, content: content.text, createdDate: DateTime.now()));
+                      memoViewModel.addMemo(Memo(
+                          title: title.text,
+                          content: content.text,
+                          createdDate: DateTime.now()));
                       //memoViewModel.firebase_add_memo(Memo(title: title.text, content: content.text, createdDate: DateTime.now()));
 
                       Navigator.of(context).pop();
 
-
                       context.showSnackbar('메모가 추가되었습니다.');
-
                     },
                     child: Text('등록'),
                   ),
-                  SizedBox(height: 20,)
+                  SizedBox(
+                    height: 20,
+                  )
                 ],
               ),
             ],

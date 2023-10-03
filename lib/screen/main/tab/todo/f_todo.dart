@@ -33,6 +33,7 @@ class _ToDoFragmentState extends State<ToDoFragment> {
     return SafeArea(
       child: Column(
         children: [
+          AppBar(title: Text("To-Do"),automaticallyImplyLeading:false),
           Expanded(
             child: Container(
               child: (ListView.builder(
@@ -101,6 +102,7 @@ class _ToDoFragmentState extends State<ToDoFragment> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+
               ElevatedButton(
                 onPressed: () {
                   showModalBottomSheet(

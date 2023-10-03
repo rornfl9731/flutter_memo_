@@ -9,7 +9,7 @@ import 'memo/f_memo.dart';
 enum TabItem {
   home(Icons.message, '메모', MemoFragment()),
   favorite(Icons.star, '즐겨찾기', FavoriteFragment(isShowBackButton: false)),
-  add(Icons.settings, '설정', ToDoFragment());
+  add(Icons.light_mode, 'To-Do', ToDoFragment());
 
 
 

@@ -31,12 +31,14 @@ class _FavoriteFragmentState extends State<FavoriteFragment> {
     return SafeArea(
       child: Column(
         children: [
+          AppBar(title: Text("즐겨찾기"),automaticallyImplyLeading:false),
           Expanded(
             child: Container(
               child: (
                   memos.length == 0 ? Center(child: Text("메모가 없습니다."),) :
                   ListView.builder(
                     itemBuilder: (BuildContext context, index) {
+                      DateTime memoDateTime = memos[index].createdDate;
                       return Card(
                         elevation: 5,
                         child: GestureDetector(
@@ -53,11 +55,16 @@ class _FavoriteFragmentState extends State<FavoriteFragment> {
                                   },icon: memos[index].isFavorite == true ? Icon(Icons.star,color: Colors.yellow,) : Icon(Icons.star_border_outlined,),)
                               ),
                               Expanded(
-                                flex: 9,
+                                flex: 6,
                                 child: ListTile(
                                   title: Text(memos[index].title),
                                   subtitle: Text(memos[index].content),
                                 ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                    '${memoDateTime.year}년 ${memoDateTime.month}월 ${memoDateTime.day}일'),
                               ),
                             ],
                           ),
