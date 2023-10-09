@@ -34,6 +34,10 @@ dependencies:
   #splash creator
   flutter_native_splash: ^2.3.0
 
+  #icon creator
+  flutter_launcher_icons: ^0.13.1
+
+
   #dart
   meta: ^1.4.0
   quiver: ^3.2.1
@@ -80,6 +84,11 @@ dependencies:
   json_annotation: ^4.8.0
   flutter_provider: ^2.1.0
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/Untitled.png"
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -122,6 +131,8 @@ flutter:
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
+
+
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages

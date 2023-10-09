@@ -7,26 +7,16 @@ import 'package:provider/provider.dart';
 import '../../../dialog/d_confirm.dart';
 
 class UpdateMemoPage extends StatelessWidget {
-
-
   final Memo before_memo;
 
   const UpdateMemoPage({Key? key, required this.before_memo}) : super(key: key);
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
-
-
-
     final memoViewModel = Provider.of<MemoViewModel>(context);
 
     final title = TextEditingController(text: before_memo.title);
     final content = TextEditingController(text: before_memo.content);
-
 
     Future<void> showConfirmDialog(BuildContext context) async {
       final confirmDialogResult = await ConfirmDialog(
@@ -42,13 +32,8 @@ class UpdateMemoPage extends StatelessWidget {
         context.showErrorSnackbar('메모가 삭제되었습니다.');
       });
 
-      confirmDialogResult?.runIfFailure((data) {
-
-
-      });
+      confirmDialogResult?.runIfFailure((data) {});
     }
-
-
 
     return Scaffold(
       appBar: AppBar(
@@ -60,11 +45,15 @@ class UpdateMemoPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
+              SizedBox(height: 15,),
               TextField(
                 controller: title,
                 decoration: InputDecoration(
                   labelText: '제목',
                   hintText: '제목을 작성해주세요',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
               ),
               SizedBox(
@@ -75,8 +64,13 @@ class UpdateMemoPage extends StatelessWidget {
                   controller: content,
                   maxLines: null,
                   maxLength: 256,
-                  decoration:
-                  InputDecoration(labelText: '내용', hintText: '내용을 작성해주세요'),
+                  decoration: InputDecoration(
+                    labelText: '내용',
+                    hintText: '내용을 작성해주세요',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                   expands: true,
                 ),
               ),
@@ -85,25 +79,26 @@ class UpdateMemoPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-
-                      memoViewModel.updateMemo(before_memo.key , Memo(title: title.text, content: content.text, createdDate: DateTime.now(),isFavorite: before_memo.isFavorite));
+                      memoViewModel.updateMemo(
+                          before_memo.key,
+                          Memo(
+                              title: title.text,
+                              content: content.text,
+                              createdDate: DateTime.now(),
+                              isFavorite: before_memo.isFavorite));
 
                       Navigator.of(context).pop();
                       context.showSnackbar('메모가 수정되었습니다.');
-
                     },
                     child: Text('수정'),
                   ),
                   ElevatedButton(
                     onPressed: () {
-
-
-
                       showConfirmDialog(context);
-
                     },
                     child: Text('삭제'),
                   ),
+                  SizedBox(height: 15),
                 ],
               ),
             ],
@@ -112,7 +107,4 @@ class UpdateMemoPage extends StatelessWidget {
       ),
     );
   }
-
 }
-
-

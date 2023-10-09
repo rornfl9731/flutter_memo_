@@ -33,55 +33,60 @@ class _MemoFragmentState extends State<MemoFragment> {
     return SafeArea(
       child: Column(
         children: [
+          AppBar(title: Text("메모"), automaticallyImplyLeading: false),
           Expanded(
             child: Container(
-
               child: (ListView.builder(
-                      itemBuilder: (BuildContext context, index) {
-                        return Card(
-                          elevation: 5,
-                          child: GestureDetector(
-                            onLongPress: () {
-                              Nav.push(SelectMemo());
-
-                            },
-                            onTap: () {
-                              Nav.push(UpdateMemoPage(
-                                before_memo: memos[index],
-                              ));
-                            },
-                            child: Row(
-                              children: [
-                                Expanded(
-                                    flex: 1,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        memoViewModel.toggleFavorite(
-                                            memos[index].key, memos[index]);
-                                      },
-                                      icon: memos[index].isFavorite == true
-                                          ? Icon(
-                                              Icons.star,
-                                              color: Colors.yellow,
-                                            )
-                                          : Icon(
-                                              Icons.star_border_outlined,
-                                            ),
-                                    )),
-                                Expanded(
-                                  flex: 9,
-                                  child: ListTile(
-                                    title: Text(memos[index].title),
-                                    subtitle: Text(memos[index].content),
-                                  ),
-                                ),
-                              ],
+                itemBuilder: (BuildContext context, index) {
+                  DateTime memoDateTime = memos[index].createdDate;
+                  return Card(
+                    elevation: 5,
+                    child: GestureDetector(
+                      onLongPress: () {
+                        Nav.push(SelectMemo());
+                      },
+                      onTap: () {
+                        Nav.push(UpdateMemoPage(
+                          before_memo: memos[index],
+                        ));
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: IconButton(
+                                onPressed: () {
+                                  memoViewModel.toggleFavorite(
+                                      memos[index].key, memos[index]);
+                                },
+                                icon: memos[index].isFavorite == true
+                                    ? Icon(
+                                        Icons.star,
+                                        color: Colors.yellow,
+                                      )
+                                    : Icon(
+                                        Icons.star_border_outlined,
+                                      ),
+                              )),
+                          Expanded(
+                            flex: 6,
+                            child: ListTile(
+                              title: Text(memos[index].title),
+                              subtitle: Text(memos[index].content),
                             ),
                           ),
-                        );
-                      },
-                      itemCount: memos.length,
-                    )),
+                          Expanded(
+                            flex: 3,
+                            child: Text(
+                                '${memoDateTime.year}년 ${memoDateTime.month}월 ${memoDateTime.day}일'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                itemCount: memos.length,
+              )),
             ),
           ),
           Column(

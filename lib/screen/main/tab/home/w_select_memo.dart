@@ -83,6 +83,7 @@ class _SelectMemoState extends State<SelectMemo> {
               child: Container(
                 child: (ListView.builder(
                   itemBuilder: (BuildContext context, index) {
+                    DateTime memoDateTime = memos[index].createdDate;
                     return Card(
                       color: memos[index].isBoxChecked ? Colors.grey.shade500 : null,
                       elevation: 5,
@@ -119,11 +120,16 @@ class _SelectMemoState extends State<SelectMemo> {
                                         ),
                                 )),
                             Expanded(
-                              flex: 8,
+                              flex: 5,
                               child: ListTile(
                                 title: Text(memos[index].title),
                                 subtitle: Text(memos[index].content),
                               ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                  '${memoDateTime.year}년 ${memoDateTime.month}월 ${memoDateTime.day}일'),
                             ),
                           ],
                         ),

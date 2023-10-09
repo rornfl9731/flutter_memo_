@@ -40,6 +40,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
     return CustomThemeApp(
       child: Builder(builder: (context) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           navigatorKey: App.navigatorKey,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
@@ -65,7 +66,7 @@ class AppState extends State<App> with Nav, WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
-      //case AppLifecycleState.hidden:
+      case AppLifecycleState.hidden:
         // TODO: Handle this case.
     }
     super.didChangeAppLifecycleState(state);
